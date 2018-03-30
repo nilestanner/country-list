@@ -11,7 +11,7 @@ jobs:
         - echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
 
     jobs:
-      prep:
+      build:
         - checkout
         - restore_cache:
             keys:
@@ -21,9 +21,8 @@ jobs:
             paths:
               - node_modules
             key: v1-dependencies-{{ checksum "package.json" }}
-      build:
-        commands:
-          - bash ./rebuild.sh
+        - bash ./rebuild.sh
+
 
     workflows:
       nightly:
@@ -35,5 +34,4 @@ jobs:
                   only:
                     - master
         jobs:
-          - prep
           - build
