@@ -11,4 +11,5 @@ if [[ `git status countries.json --porcelain` ]]; then
   | tr -d '[[:space:]]')
   git commit countries.json -am "$PACKAGE_VERSION"
   git push
+  npm publish
 fi

@@ -10,12 +10,6 @@ jobs:
       pre:
         - echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
 
-    deployment:
-      npm:
-        tag: /v[0-9]+(\.[0-9]+)*/
-            commands:
-          - npm publish
-
     jobs:
       prep:
         - checkout
@@ -29,7 +23,7 @@ jobs:
               - node_modules
             key: v1-dependencies-{{ checksum "package.json" }}
       build:
-        commands:
+        steps:
           - bash ./rebuild.sh
 
     workflows:
@@ -41,6 +35,6 @@ jobs:
                 branches:
                   only:
                     - master
-      jobs:
-        - prep
-        - build
+        jobs:
+          - prep
+          - build
