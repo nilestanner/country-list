@@ -1,4 +1,5 @@
 #!/bin/bash
+
 npm run build
 if [[ `git status countries.json --porcelain` ]]; then
   echo 'Changes detected'
