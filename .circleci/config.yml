@@ -23,8 +23,7 @@ jobs:
               - node_modules
             key: v1-dependencies-{{ checksum "package.json" }}
       build:
-        steps:
-          - bash ./rebuild.sh
+        - bash ./rebuild.sh
 
     workflows:
       nightly:
