@@ -1,0 +1,30 @@
+{
+  "name": "country-list",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "build": "node builder.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nilestanner/country-list.git"
+  },
+  "keywords": [
+    "countries",
+    "list",
+    "data"
+  ],
+  "author": "Niles Tanner <niles.tanner@gmail.com> (https://www.nilestanner.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nilestanner/country-list/issues"
+  },
+  "homepage": "https://github.com/nilestanner/country-list#readme",
+  "devDependencies": {
+    "deep-equal": "^1.0.1",
+    "request": "^2.85.0"
+  }
+}
