@@ -8,7 +8,7 @@ request('https://restcountries.eu/rest/v2/all', { json: true }, (err, res, body)
   if (equal(body, currentJson)) {
     console.log('No changes, not rebuilding JSON');
   } else {
-    console.log('Changes found rebuilding JSON')
+    console.log('Changes found rebuilding JSON');
     fs.writeFileSync('countries.json',JSON.stringify(body, null, 2));
   }
 });

@@ -10,16 +10,27 @@ jobs:
       pre:
         - echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
 
-    steps:
-
-      - run: if [[ `git status --porcelain` ]]; then echo "there are changes";   ; fi
-
-
     deployment:
       npm:
         tag: /v[0-9]+(\.[0-9]+)*/
             commands:
           - npm publish
+
+    jobs:
+      prep:
+        - checkout
+        - restore_cache:
+            keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+        - run: yarn install
+        - save_cache:
+            paths:
+              - node_modules
+            key: v1-dependencies-{{ checksum "package.json" }}
+      build:
+        commands:
+          - bash ./rebuild.sh
 
     workflows:
       nightly:
@@ -31,14 +42,5 @@ jobs:
                   only:
                     - master
       jobs:
-        setup:
-          - checkout
-          - restore_cache:
-              keys:
-              - v1-dependencies-{{ checksum "package.json" }}
-              - v1-dependencies-
-          - run: yarn install
-          - save_cache:
-              paths:
-                - node_modules
-              key: v1-dependencies-{{ checksum "package.json" }}
+        - prep
+        - build
