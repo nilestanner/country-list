@@ -24,6 +24,7 @@ jobs:
 
 
 workflows:
+  version: 2
   nightly:
     triggers:
       - schedule:
