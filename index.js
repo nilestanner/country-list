@@ -8,7 +8,7 @@ const getCountries = () => {
 };
 
 const getCountry = (code) => {
-  if (typeof code !== 'string' || code.length !== 2 || code.length !== 3) {
+  if (typeof code !== 'string' || (code.length !== 2 && code.length !== 3)) {
     console.log('Invalid code format');
     return null;
   }
