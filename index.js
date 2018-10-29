@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const countries = JSON.parse(fs.readFileSync('countries.json'));
+const countries = JSON.parse(fs.readFileSync(__dirname + '/countries.json'));
 const cache = {};
 
 const getCountries = () => {
