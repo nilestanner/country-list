@@ -13,7 +13,7 @@ const getCountry = (code) => {
     return null;
   }
   const key = code.length === 2 ? 'alpha2Code' : 'alpha3Code';
-  return countries.find(country => country[key].toLowerCase() === code.toLowerCase());
+  return countries.find(country => country[key].toLowerCase() === code.toLowerCase()) || null;
 };
 
 const getNames = () => {

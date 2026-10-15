@@ -26,7 +26,7 @@ Returns all countries with all their data.
 
 ### getCountry(code)
 
-Returns a country with that code. `code` can be a 2 or 3 character code.
+Returns a country with that code. `code` can be a 2 or 3 character code. Returns `null` if no country matches (or the code is malformed).
 
 ### getNames()
 
