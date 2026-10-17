@@ -148,6 +148,9 @@ describe('country-info-list', () => {
 
     it('throws a TypeError for a non-string name', () => {
       assert.throws(() => lib.getCode(undefined), TypeError);
+      assert.throws(() => lib.getCode(null), TypeError);
+      assert.throws(() => lib.getCode(42), TypeError);
+      assert.throws(() => lib.getCode({}), TypeError);
     });
 
     it('round-trips with getCountry for every country', () => {
