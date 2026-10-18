@@ -1,5 +1,3 @@
 builder.js
 .circleci
 rebuild.sh
-
-test

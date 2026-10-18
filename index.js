@@ -19,7 +19,9 @@ const getCountry = (code) => {
     if (!cache.byAlpha2) {
       cache.byAlpha2 = {};
       for (let i = 0; i < countries.length; i++) {
-        cache.byAlpha2[countries[i].alpha2Code.toLowerCase()] = countries[i];
+        if (countries[i].alpha2Code) {
+          cache.byAlpha2[countries[i].alpha2Code.toLowerCase()] = countries[i];
+        }
       }
     }
     return cache.byAlpha2[code.toLowerCase()] || undefined;
@@ -27,7 +29,9 @@ const getCountry = (code) => {
     if (!cache.byAlpha3) {
       cache.byAlpha3 = {};
       for (let i = 0; i < countries.length; i++) {
-        cache.byAlpha3[countries[i].alpha3Code.toLowerCase()] = countries[i];
+        if (countries[i].alpha3Code) {
+          cache.byAlpha3[countries[i].alpha3Code.toLowerCase()] = countries[i];
+        }
       }
     }
     return cache.byAlpha3[code.toLowerCase()] || undefined;
@@ -63,12 +67,17 @@ const getCodes = (codeType) => {
 };
 
 const getCode = (name, codeType = 2) => {
+  if (typeof name !== 'string') {
+    throw new TypeError('Name must be a string');
+  }
   // ⚡ Bolt Optimization: Replace O(N) array search with O(1) hash map lookup
   // This reduces lookup time by ~98% for repeated queries (from ~375ms to ~5ms per 10k queries)
   if (!cache.byName) {
     cache.byName = {};
     for (let i = 0; i < countries.length; i++) {
-      cache.byName[countries[i].name.toLowerCase()] = countries[i];
+      if (countries[i].name) {
+        cache.byName[countries[i].name.toLowerCase()] = countries[i];
+      }
     }
   }
   const country = cache.byName[name.toLowerCase()];
