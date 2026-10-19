@@ -37,7 +37,7 @@ const getNames = () => {
   return cache.names;
 };
 
-const getCodes = (codeType) => {
+const getCodes = (codeType = 2) => {
   if (codeType !== 2 && codeType !== 3) {
     codeType = 2;
     console.log('Invalid code type provided defaulting to 2 character codes');
