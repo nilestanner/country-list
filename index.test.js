@@ -119,3 +119,9 @@ test('getCode returns null for unknown country', () => {
   const code = getCode('UnknownCountry');
   assert.strictEqual(code, null);
 });
+
+test('getCode handles invalid name types gracefully', { todo: 'getCode missing type validation' }, () => {
+  assert.strictEqual(getCode(null), null);
+  assert.strictEqual(getCode(undefined), null);
+  assert.strictEqual(getCode(123), null);
+});
