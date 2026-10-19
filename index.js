@@ -1,7 +1,18 @@
-const fs = require('fs');
-
-const countries = JSON.parse(fs.readFileSync(__dirname + '/countries.json'));
+const countries = require('./countries.json');
 const cache = {};
+
+// Optimization: Pre-compute lookup maps for O(1) retrieval instead of O(n) array searches
+// Plain objects with null prototype are used for faster lookups in V8 engine
+const mapByAlpha2 = Object.create(null);
+const mapByAlpha3 = Object.create(null);
+const mapByName = Object.create(null);
+
+for (let i = 0; i < countries.length; i++) {
+  const c = countries[i];
+  if (c.alpha2Code) mapByAlpha2[c.alpha2Code.toLowerCase()] = c;
+  if (c.alpha3Code) mapByAlpha3[c.alpha3Code.toLowerCase()] = c;
+  if (c.name) mapByName[c.name.toLowerCase()] = c;
+}
 
 const getCountries = () => {
   return countries;
@@ -12,8 +23,11 @@ const getCountry = (code) => {
     console.log('Invalid code format');
     return null;
   }
-  const key = code.length === 2 ? 'alpha2Code' : 'alpha3Code';
-  return countries.find(country => country[key].toLowerCase() === code.toLowerCase());
+  const country = code.length === 2
+    ? mapByAlpha2[code.toLowerCase()]
+    : mapByAlpha3[code.toLowerCase()];
+
+  return country !== undefined ? country : undefined;
 };
 
 const getNames = () => {
@@ -46,7 +60,7 @@ const getCodes = (codeType) => {
 
 const getCode = (name, codeType = 2) => {
   const key = codeType === 3 ? 'alpha3Code' : 'alpha2Code';
-  const country = countries.find(country => country.name.toLowerCase() === name.toLowerCase());
+  const country = mapByName[name.toLowerCase()];
   if (country) {
     return country[key];
   } else {
