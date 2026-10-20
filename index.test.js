@@ -29,9 +29,9 @@ test('getCountry is case insensitive', () => {
   assert.strictEqual(countryLower3.name, 'Afghanistan');
 });
 
-test('getCountry returns undefined for not found code', () => {
+test('getCountry returns null for not found code', () => {
   const result = getCountry('ZZ');
-  assert.strictEqual(result, undefined);
+  assert.strictEqual(result, null);
 });
 
 test('getCountry handles invalid formats', () => {

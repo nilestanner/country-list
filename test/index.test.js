@@ -67,18 +67,10 @@ describe('country-info-list', () => {
       assert.strictEqual(lib.getCountry(null), null);
     });
 
-    it('returns a falsy value for a well-formed but unknown code', () => {
-      assert.ok(!lib.getCountry('ZZ'));
-      assert.ok(!lib.getCountry('ZZZ'));
+    it('returns null for a well-formed but unknown code', () => {
+      assert.strictEqual(lib.getCountry('ZZ'), null);
+      assert.strictEqual(lib.getCountry('ZZZ'), null);
     });
-
-    // Not asserted strictly: well-formed unknown codes return `undefined` (Array#find),
-    // while malformed codes return `null`. See PR description.
-    it('returns null (not undefined) for unknown well-formed codes',
-      { todo: 'getCountry returns undefined for unknown well-formed codes but null for malformed ones' },
-      () => {
-        assert.strictEqual(lib.getCountry('ZZ'), null);
-      });
   });
 
   describe('getNames', () => {

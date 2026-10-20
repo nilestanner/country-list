@@ -36,7 +36,7 @@ const getCountry = (code) => {
     ? mapByAlpha2[code.toLowerCase()]
     : mapByAlpha3[code.toLowerCase()];
 
-  return country !== undefined ? country : undefined;
+  return country || null;
 };
 
 const getNames = () => {
