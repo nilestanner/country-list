@@ -8,24 +8,40 @@ const getCountriesData = () => {
   return countries;
 };
 
-// Optimization: Pre-compute lookup maps for O(1) retrieval instead of O(n) array searches
-// Plain objects with null prototype are used for faster lookups in V8 engine
-// Maps are populated lazily to improve module require time
+// Optimization: Pre-compute lookup maps for O(1) retrieval instead of O(n) array searches.
+// Plain objects with null prototype are used for faster lookups in V8 engine.
+// To avoid wasting CPU cycles building unnecessary lookup tables, each map
+// (Alpha2, Alpha3, Name) is initialized lazily and independently on first use.
 let mapByAlpha2;
 let mapByAlpha3;
 let mapByName;
 
-const initMaps = () => {
+const initMapByAlpha2 = () => {
   if (mapByAlpha2) return;
   const data = getCountriesData();
   mapByAlpha2 = Object.create(null);
-  mapByAlpha3 = Object.create(null);
-  mapByName = Object.create(null);
-
   for (let i = 0; i < data.length; i++) {
     const c = data[i];
     if (c.alpha2Code) mapByAlpha2[c.alpha2Code.toLowerCase()] = c;
+  }
+};
+
+const initMapByAlpha3 = () => {
+  if (mapByAlpha3) return;
+  const data = getCountriesData();
+  mapByAlpha3 = Object.create(null);
+  for (let i = 0; i < data.length; i++) {
+    const c = data[i];
     if (c.alpha3Code) mapByAlpha3[c.alpha3Code.toLowerCase()] = c;
+  }
+};
+
+const initMapByName = () => {
+  if (mapByName) return;
+  const data = getCountriesData();
+  mapByName = Object.create(null);
+  for (let i = 0; i < data.length; i++) {
+    const c = data[i];
     if (c.name) mapByName[c.name.toLowerCase()] = c;
   }
 };
@@ -39,10 +55,15 @@ const getCountry = (code) => {
     console.log('Invalid code format');
     return null;
   }
-  initMaps();
-  const country = code.length === 2
-    ? mapByAlpha2[code.toLowerCase()]
-    : mapByAlpha3[code.toLowerCase()];
+
+  let country;
+  if (code.length === 2) {
+    initMapByAlpha2();
+    country = mapByAlpha2[code.toLowerCase()];
+  } else {
+    initMapByAlpha3();
+    country = mapByAlpha3[code.toLowerCase()];
+  }
 
   return country || null;
 };
@@ -76,7 +97,7 @@ const getCodes = (codeType = 2) => {
 };
 
 const getCode = (name, codeType = 2) => {
-  initMaps();
+  initMapByName();
   const key = codeType === 3 ? 'alpha3Code' : 'alpha2Code';
   const country = mapByName[name.toLowerCase()];
   if (country) {
