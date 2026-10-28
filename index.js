@@ -97,9 +97,6 @@ const getCodes = (codeType = 2) => {
 };
 
 const getCode = (name, codeType = 2) => {
-  if (typeof name !== 'string') {
-    return null;
-  }
   initMapByName();
   const key = codeType === 3 ? 'alpha3Code' : 'alpha2Code';
   const country = mapByName[name.toLowerCase()];
